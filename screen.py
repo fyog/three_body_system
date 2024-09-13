@@ -6,7 +6,7 @@ class Screen:
     def __init__(self, win, colour, interface):
         self.win = win
         self.colour = colour
-        self.win.setBackground = colour
+        self.win.setBackground(colour)
         self.interface = interface
     
     # draws the menu screen, with the menu text at the given location

@@ -73,7 +73,7 @@ class GraphWin(tk.Canvas):
 
     def setBackground(self, color):
         """Set background color of the window"""
-        self.__checkOpen()
+        #self.__checkOpen()
         self.config(bg=color)
         self.__autoflush()
         
