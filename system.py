@@ -1,5 +1,4 @@
 from mass import *
-from graphics import *
 from interface import *
 
 class System:

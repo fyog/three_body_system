@@ -1,4 +1,4 @@
-from graphics import *
+from graphics_backup import *
 
 class Screen:
 
