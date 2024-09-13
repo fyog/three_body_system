@@ -1,5 +1,5 @@
 import keyboard
-from graphics_backup import *
+from graphics import *
 import tkinter as tk
 
 LENGTH = 1600

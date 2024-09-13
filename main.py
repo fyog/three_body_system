@@ -29,7 +29,7 @@ def main():
         interface.check()
         if interface.begin_game:
             screen.undraw()
-            screen.change_background_colour('black')
+            #screen.change_background_colour('black')
     
     # game instructions
     if SHOW_CONTROLS:
