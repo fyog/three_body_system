@@ -18,18 +18,16 @@ def main():
     win = GraphWin('Three-Body System', LENGTH, WIDTH)
     interface = Interface(win)
     screen = Screen('black',  interface)
-    world_origin = win.toWorld(800, 400)
-    #world_origin = win.toScreen(0, 0)
+    world_origin = win.toWorld(200, 400)
        
     # menu screen
     while not interface.begin_game:
         x, y = world_origin
+        print (f'{x},{y}')
         screen.draw_menu_screen(x, y)
         interface.check()
-        #if interface.begin_game:
-            #screen.undraw_menu_screen()
-            #screen.change_background_colour('black')
-    
+        screen.undraw_menu_screen()
+
     # game instructions
     if SHOW_CONTROLS:
         controls = Text(Point(1425, 720), 'To restart the sim press r.\nTo pause press p.\nTo unpause press u.\nTo close the window press esc.')
