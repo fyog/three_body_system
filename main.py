@@ -23,7 +23,6 @@ def main():
     # menu screen
     while not interface.begin_game:
         x, y = world_origin
-        print (f'{x},{y}')
         screen.draw_menu_screen(x, y)
         interface.check()
         screen.undraw_menu_screen()
@@ -85,6 +84,7 @@ def main():
 
         # restart simulation
         if interface.restart:
+            print('trigger')
             system = System(win, interface, [spaceship, mass])
             interface.restart = False
               
@@ -97,6 +97,6 @@ def main():
 
         # clear the screen and reset the interface toggles
         system.clear()
-        interface.reset_state()
+        #interface.reset_state()
 
 main()
