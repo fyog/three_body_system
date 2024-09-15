@@ -4,7 +4,8 @@ import tkinter as tk
 root = tk.Tk()
 root.withdraw()
 
-_update_lasttime = time.time()
+#_update_lasttime = time.time()
+
 '''
 def update(rate=None):
     global _update_lasttime
@@ -19,16 +20,14 @@ def update(rate=None):
 
     root.update()
 '''
-############################################################################
-# Graphics classes start here
-        
+
+# top level window for displaying graphics
 class GraphWin(tk.Canvas):
 
-    """A GraphWin is a toplevel window for displaying graphics."""
-
+    # constructor
     def __init__(self, title="Graphics Window",
                  width=200, height=200, autoflush=True):
-        assert type(title) == type(""), "Title must be a string"
+        #assert type(title) == type(""), "Title must be a string"
         master = tk.Toplevel(root)
         master.protocol("WM_DELETE_WINDOW", self.close)
         tk.Canvas.__init__(self, master, width=width, height=height,
@@ -51,7 +50,8 @@ class GraphWin(tk.Canvas):
         master.lift()
         self.lastKey = ""
         if autoflush: root.update()
-
+    
+    # unammbiguous representation of the object state
     def __repr__(self):
         if self.isClosed():
             return "<Closed GraphWin>"
@@ -60,6 +60,7 @@ class GraphWin(tk.Canvas):
                                              self.getWidth(),
                                              self.getHeight())
 
+    # readable representation of the object currently
     def __str__(self):
         return repr(self)
      
@@ -70,9 +71,7 @@ class GraphWin(tk.Canvas):
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
 
-
     def setBackground(self, color):
-        """Set background color of the window"""
         #self.__checkOpen()
         self.config(bg=color)
         self.__autoflush()
@@ -84,13 +83,10 @@ class GraphWin(tk.Canvas):
         self.redraw()
 
     def close(self):
-        """Close the window"""
-
         if self.closed: return
         self.closed = True
         self.master.destroy()
         self.__autoflush()
-
 
     def isClosed(self):
         return self.closed
@@ -99,11 +95,9 @@ class GraphWin(tk.Canvas):
     def isOpen(self):
         return not self.closed
 
-
     def __autoflush(self):
         if self.autoflush:
             root.update()
-
     
     def plot(self, x, y, color="black"):
         """Set pixel (x,y) to the given color"""
@@ -153,8 +147,8 @@ class GraphWin(tk.Canvas):
         else:
             return None
 
+    # wait for key press and return appropriate string
     def getKey(self):
-        """Wait for user to press a key and return it as a string."""
         self.lastKey = ""
         while self.lastKey == "":
             self.update()
@@ -175,11 +169,9 @@ class GraphWin(tk.Canvas):
         return key
             
     def getHeight(self):
-        """Return the height of the window"""
         return self.height
         
     def getWidth(self):
-        """Return the width of the window"""
         return self.width
     
     def toScreen(self, x, y):
@@ -217,11 +209,9 @@ class GraphWin(tk.Canvas):
             item.draw(self)
         self.update()
         
-                      
+# internal class for performing transformations               
 class Transform:
-
-    """Internal class for 2-D coordinate transformations"""
-    
+   
     def __init__(self, w, h, xlow, ylow, xhigh, yhigh):
         # w, h are width and height of window
         # (xlow,ylow) coordinates of lower-left [raw (0,h-1)]
@@ -256,6 +246,7 @@ DEFAULT_CONFIG = {"fill":"",
       "justify":"center",
                   "font": ("helvetica", 12, "normal")}
 
+# superclass for all geometric shapes
 class GraphicsObject:
 
     """Generic base class for all of the drawable objects"""
@@ -364,7 +355,7 @@ class GraphicsObject:
         """updates internal state of object to move it dx,dy units"""
         pass # must override in subclass
 
-         
+# zero-dimensional point 
 class Point(GraphicsObject):
     def __init__(self, x, y):
         GraphicsObject.__init__(self, ["outline", "fill"])
@@ -391,6 +382,7 @@ class Point(GraphicsObject):
     def getX(self): return self.x
     def getY(self): return self.y
 
+# bounding box
 class _BBox(GraphicsObject):
     # Internal base class for objects represented by bounding box
     # (opposite corners) Line segment is a degenerate case.
@@ -415,7 +407,7 @@ class _BBox(GraphicsObject):
         p2 = self.p2
         return Point((p1.x+p2.x)/2.0, (p1.y+p2.y)/2.0)
 
-    
+# rectangle    
 class Rectangle(_BBox):
     
     def __init__(self, p1, p2):
@@ -437,6 +429,7 @@ class Rectangle(_BBox):
         return other
 
 
+# oval
 class Oval(_BBox):
     
     def __init__(self, p1, p2):
@@ -457,7 +450,8 @@ class Oval(_BBox):
         x1,y1 = canvas.toScreen(p1.x,p1.y)
         x2,y2 = canvas.toScreen(p2.x,p2.y)
         return canvas.create_oval(x1,y1,x2,y2,options)
-    
+
+# circle
 class Circle(Oval):
     
     def __init__(self, center, radius):
@@ -477,7 +471,8 @@ class Circle(Oval):
     def getRadius(self):
         return self.radius
 
-                  
+
+# line         
 class Line(_BBox):
     
     def __init__(self, p1, p2):
@@ -505,7 +500,7 @@ class Line(_BBox):
             '''raise GraphicsError(BAD_OPTION)'''
         self._reconfig("arrow", option)
         
-
+# polygon
 class Polygon(GraphicsObject):
     
     def __init__(self, *points):
@@ -539,6 +534,7 @@ class Polygon(GraphicsObject):
         args.append(options)
         return GraphWin.create_polygon(*args) 
 
+# text box
 class Text(GraphicsObject):
     
     def __init__(self, p, text):
@@ -597,7 +593,7 @@ class Text(GraphicsObject):
     def setTextColor(self, color):
         self.setFill(color)
 
-
+# entry field
 class Entry(GraphicsObject):
 
     def __init__(self, p, width):
@@ -687,7 +683,7 @@ class Entry(GraphicsObject):
         if self.entry:
             self.entry.config(fg=color)
 
-
+# ?
 class BButton(GraphicsObject):
 
     def __init__(self, p, text, height, width):
@@ -706,7 +702,7 @@ class BButton(GraphicsObject):
     def _move(self, dx, dy):
         self.anchor.move(dx,dy)
 
-
+# 2-d image
 class Image(GraphicsObject):
 
     idCount = 0
@@ -792,54 +788,54 @@ class Image(GraphicsObject):
         self.img.write( filename, format=ext)
 
         
-def color_rgb(r,g,b):
-    """r,g,b are intensities of red, green, and blue in range(256)
-    Returns color specifier string for the resulting color"""
-    return "#%02x%02x%02x" % (r,g,b)
+    def color_rgb(r,g,b):
+        """r,g,b are intensities of red, green, and blue in range(256)
+        Returns color specifier string for the resulting color"""
+        return "#%02x%02x%02x" % (r,g,b)
 
-def test():
-    win = GraphWin()
-    win.setCoords(0,0,10,10)
-    t = Text(Point(5,5), "Centered Text")
-    t.draw(win)
-    p = Polygon(Point(1,1), Point(5,3), Point(2,7))
-    p.draw(win)
-    e = Entry(Point(5,6), 10)
-    e.draw(win)
-    win.getMouse()
-    p.setFill("red")
-    p.setOutline("blue")
-    p.setWidth(2)
-    s = ""
-    for pt in p.getPoints():
-        s = s + "(%0.1f,%0.1f) " % (pt.getX(), pt.getY())
-    t.setText(e.getText())
-    e.setFill("green")
-    e.setText("Spam!")
-    e.move(2,0)
-    win.getMouse()
-    p.move(2,3)
-    s = ""
-    for pt in p.getPoints():
-        s = s + "(%0.1f,%0.1f) " % (pt.getX(), pt.getY())
-    t.setText(s)
-    win.getMouse()
-    p.undraw()
-    e.undraw()
-    t.setStyle("bold")
-    win.getMouse()
-    t.setStyle("normal")
-    win.getMouse()
-    t.setStyle("italic")
-    win.getMouse()
-    t.setStyle("bold italic")
-    win.getMouse()
-    t.setSize(14)
-    win.getMouse()
-    t.setFace("arial")
-    t.setSize(20)
-    win.getMouse()
-    win.close()
+    def test():
+        win = GraphWin()
+        win.setCoords(0,0,10,10)
+        t = Text(Point(5,5), "Centered Text")
+        t.draw(win)
+        p = Polygon(Point(1,1), Point(5,3), Point(2,7))
+        p.draw(win)
+        e = Entry(Point(5,6), 10)
+        e.draw(win)
+        win.getMouse()
+        p.setFill("red")
+        p.setOutline("blue")
+        p.setWidth(2)
+        s = ""
+        for pt in p.getPoints():
+            s = s + "(%0.1f,%0.1f) " % (pt.getX(), pt.getY())
+        t.setText(e.getText())
+        e.setFill("green")
+        e.setText("Spam!")
+        e.move(2,0)
+        win.getMouse()
+        p.move(2,3)
+        s = ""
+        for pt in p.getPoints():
+            s = s + "(%0.1f,%0.1f) " % (pt.getX(), pt.getY())
+        t.setText(s)
+        win.getMouse()
+        p.undraw()
+        e.undraw()
+        t.setStyle("bold")
+        win.getMouse()
+        t.setStyle("normal")
+        win.getMouse()
+        t.setStyle("italic")
+        win.getMouse()
+        t.setStyle("bold italic")
+        win.getMouse()
+        t.setSize(14)
+        win.getMouse()
+        t.setFace("arial")
+        t.setSize(20)
+        win.getMouse()
+        win.close()
 
 #MacOS fix 2
 #tk.Toplevel(_root).destroy()

@@ -5,8 +5,6 @@ from mass import *
 from spaceship import *
 from screen import *
 
-# constants
-
 COLLISIONS = False
 SHOW_PATH = True
 SHOW_MASSES = True
@@ -19,16 +17,17 @@ def main():
     # window and interface creation
     win = GraphWin('Three-Body System', LENGTH, WIDTH)
     interface = Interface(win)
-    screen = Screen(win, 'black',  interface)
-    world_origin = win.toWorld(.0, .0)
+    screen = Screen('black',  interface)
+    world_origin = win.toWorld(800, 400)
+    #world_origin = win.toScreen(0, 0)
        
     # menu screen
     while not interface.begin_game:
         x, y = world_origin
         screen.draw_menu_screen(x, y)
         interface.check()
-        if interface.begin_game:
-            screen.undraw()
+        #if interface.begin_game:
+            #screen.undraw_menu_screen()
             #screen.change_background_colour('black')
     
     # game instructions
@@ -38,7 +37,7 @@ def main():
         controls.draw(win)
     
     # generate system
-    spaceship = Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'red', TIME_STEP)
+    spaceship = Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
     mass = Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
     system = System(win, interface, [spaceship, mass])
 

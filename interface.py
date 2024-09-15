@@ -34,7 +34,6 @@ class Interface():
         if keyboard.is_pressed('space'): self.slow_mo = True
 
         # mouse vars
-        #self.win._root.bind
         if self.on_scroll == 'in': self.zoom_in = True
         if self.on_scroll == 'out': self.zoom_out = True
 

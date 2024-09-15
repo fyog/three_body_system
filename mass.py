@@ -2,7 +2,6 @@ import numpy as np
 import math
 from graphics import *
 
-# constants
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
 
@@ -90,14 +89,15 @@ class Mass:
      
         # small pts
         path_pt_small = Point(self.pos[0], self.pos[1])
-        path_pt_small.setOutline('white')
+        path_pt_small.setOutline('blue')
+        path_pt_small.setFill('blue')
         self.path_list_small.append(path_pt_small)
         path_pt_small.draw(win)
 
         # medium pts
         path_pt_med = Circle(Point(self.pos[0], self.pos[1]), 1.3)
-        path_pt_med.setOutline('lightblue')
-        path_pt_med.setFill('purple')
+        path_pt_med.setOutline('blue')
+        path_pt_med.setFill('blue')
         self.path_list_med.append(path_pt_med)
         path_pt_med.draw(win)
 
