@@ -437,7 +437,6 @@ class Oval(_BBox):
 
     def __repr__(self):
         return "Oval({}, {})".format(str(self.p1), str(self.p2))
-
         
     def clone(self):
         other = Oval(self.p1, self.p2)

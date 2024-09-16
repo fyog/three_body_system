@@ -64,7 +64,7 @@ def main():
         interface.check()
 
         # apply movement
-        spaceship.apply_thrust(interface) # thrust is tied to timestep
+        spaceship.apply_thrust(interface) # thrust is a function of timestep
 
         # apply zoom
         if interface.zoom_in:
@@ -75,6 +75,7 @@ def main():
         # slow motion
         if interface.slow_mo:
             spaceship.set_timestep(TIME_STEP / 10.)
+            interface.slow_mo = False
         else:
             spaceship.set_timestep(TIME_STEP)
 
@@ -84,7 +85,8 @@ def main():
 
         # restart simulation
         if interface.restart:
-            print('trigger')
+            spaceship = Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
+            mass = Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
             system = System(win, interface, [spaceship, mass])
             interface.restart = False
               
@@ -96,7 +98,7 @@ def main():
             interface.pause = True
 
         # clear the screen and reset the interface toggles
-        system.clear()
+        #system.clear()
         #interface.reset_state()
 
 main()
