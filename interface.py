@@ -1,10 +1,7 @@
 import keyboard
 from graphics import *
 import tkinter as tk
-
-LENGTH = 1600
-WIDTH = 800
-
+ 
 class Interface():
 
     # constructor

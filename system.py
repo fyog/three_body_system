@@ -1,6 +1,7 @@
 from mass import *
 from interface import *
 
+# This class is meant to represent the physical universe (w.r.t the program), with the ability to add an unlimited number of bodies to the simulation.
 class System:
 
     # constructor

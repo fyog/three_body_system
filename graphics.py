@@ -1,6 +1,11 @@
 import time, os, sys
 import tkinter as tk
 
+# constants
+WIDTH = 1600
+HEIGHT = 800
+
+# open up root tkinter window
 root = tk.Tk()
 root.withdraw()
 
@@ -181,12 +186,14 @@ class GraphWin(tk.Canvas):
         else:
             return x,y
                       
-    def toWorld(self, x, y):
-        trans = self.trans
+    def toWorld(self, x_input, y_input):
+        return x_input - (WIDTH / 2), y_input + (HEIGHT / 2.)
+
+        '''trans = self.trans
         if trans:
             return self.trans.world(x,y)
         else:
-            return x,y
+            return x,u'''
         
     def setMouseHandler(self, func):
         self._mouseCallback = func
@@ -249,9 +256,8 @@ DEFAULT_CONFIG = {"fill":"",
 # superclass for all geometric shapes
 class GraphicsObject:
 
-    """Generic base class for all of the drawable objects"""
-    # A subclass of GraphicsObject should override _draw and
-    #   and _move methods.
+    # A subclass of GraphicsObject should override draw and
+    # and move methods.
     
     def __init__(self, options):
         # options is a list of strings indicating which options are
@@ -380,6 +386,7 @@ class Point(GraphicsObject):
         return other
                 
     def getX(self): return self.x
+
     def getY(self): return self.y
 
 # bounding box

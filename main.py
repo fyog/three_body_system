@@ -15,17 +15,19 @@ TIME_STEP = 0.1
 def main():
     
     # window and interface creation
-    win = GraphWin('Three-Body System', LENGTH, WIDTH)
+    win = GraphWin('Three-Body System', WIDTH, HEIGHT)
     interface = Interface(win)
     screen = Screen('black',  interface)
-    world_origin = win.toWorld(200, 400)
+    world_origin = win.toWorld(800, 400)
+    
        
     # menu screen
     while not interface.begin_game:
         x, y = world_origin
+        print("x:" + str(x) + "y:" + str(y))
         screen.draw_menu_screen(x, y)
         interface.check()
-        screen.undraw_menu_screen()
+    screen.undraw_menu_screen()
 
     # game instructions
     if SHOW_CONTROLS:
@@ -63,9 +65,6 @@ def main():
         # register player input
         interface.check()
 
-        # apply movement
-        spaceship.apply_thrust(interface) # thrust is a function of timestep
-
         # apply zoom
         if interface.zoom_in:
             print('zooming in')
@@ -96,6 +95,9 @@ def main():
         else:
             print('You crashed.')
             interface.pause = True
+
+        # apply movement
+        spaceship.apply_thrust(interface) # thrust is a function of timestep
 
         # clear the screen and reset the interface toggles
         #system.clear()
