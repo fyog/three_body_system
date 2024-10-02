@@ -185,9 +185,10 @@ class GraphWin(tk.Canvas):
             return self.trans.screen(x,y)
         else:
             return x,y
-                      
+
+    # problem is here    
     def toWorld(self, x_input, y_input):
-        return x_input - (WIDTH / 2), y_input + (HEIGHT / 2.)
+        return x_input - (WIDTH / 2.), -(y_input - (HEIGHT / 2.))
 
         '''trans = self.trans
         if trans:
@@ -239,7 +240,7 @@ class Transform:
     def world(self,xs,ys):
         # Returns xs,ys in world coordinates
         x = xs*self.xscale + self.xbase
-        y = self.ybase - ys*self.yscale
+        y = ys*self.yscale - self.ybase
         return x,y
 
 

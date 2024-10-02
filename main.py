@@ -18,7 +18,7 @@ def main():
     win = GraphWin('Three-Body System', WIDTH, HEIGHT)
     interface = Interface(win)
     screen = Screen('black',  interface)
-    world_origin = win.toWorld(800, 400)
+    world_origin = win.toWorld(0, 600)
     
        
     # menu screen
@@ -33,7 +33,6 @@ def main():
     if SHOW_CONTROLS:
         controls = Text(Point(1425, 720), 'To restart the sim press r.\nTo pause press p.\nTo unpause press u.\nTo close the window press esc.')
         controls.setTextColor('white')
-        controls.draw(win)
     
     # generate system
     spaceship = Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
