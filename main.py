@@ -18,12 +18,14 @@ def main():
     win = GraphWin('Three-Body System', WIDTH, HEIGHT)
     interface = Interface(win)
     screen = Screen('black',  interface)
-    world_origin = win.toWorld(0, 600)
-    
-       
+    #origin_world = win.toWorld(.0, 600.)
+    origin_screen = win.toScreen(.0, .0)
+    #print("x:" + str(x) + "y:" + str(y))
+
+    #origin_screen
     # menu screen
     while not interface.begin_game:
-        x, y = world_origin
+        x, y = origin_screen
         print("x:" + str(x) + "y:" + str(y))
         screen.draw_menu_screen(x, y)
         interface.check()
