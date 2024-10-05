@@ -180,16 +180,15 @@ class GraphWin(tk.Canvas):
         return self.width
     
     def toScreen(self, x, y):
-        return x + (WIDTH / 2.), -(y + (HEIGHT / 2.))
+        return x + (WIDTH / 2.), (y + (HEIGHT / 2.))
         '''trans = self.trans
         if trans:
             return self.trans.screen(x,y)
         else:
             return x,y'''
-
-    # problem is here    
+  
     def toWorld(self, x, y):
-        return x - (WIDTH / 2.), -(y + (HEIGHT / 2.))
+        return x - (WIDTH / 2.), -(y - (HEIGHT / 2.))
 
         '''trans = self.trans
         if trans:
