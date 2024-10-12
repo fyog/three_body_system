@@ -19,9 +19,9 @@ def main():
     interface = Interface(win)
     screen = Screen('black',  interface)
     #origin_world = win.toWorld(.0, 600.)
-    origin_screen = win.toScreen(.0, .0)
+    origin_screen = win.toScreen(.0, 1.)
     x, y = origin_screen
-    print("x:" + str(x) + "y:" + str(y))
+    print("x: " + str(x) + ",y: " + str(y))
 
     #print("x:" + str(x) + "y:" + str(y))
     # #origin_screen
