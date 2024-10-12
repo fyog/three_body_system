@@ -18,7 +18,7 @@ def main():
     win = GraphWin('Three-Body System', WIDTH, HEIGHT)
     interface = Interface(win)
     screen = Screen('black',  interface)
-    origin_world = win.toWorld(800., 401.)
+    origin_world = win.toWorld(800., 400.)
     #origin_screen = win.toScreen(.0, 1.)
     x, y = origin_world
     print("x: " + str(x) + ",y: " + str(y))
