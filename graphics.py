@@ -96,7 +96,6 @@ class GraphWin(tk.Canvas):
     def isClosed(self):
         return self.closed
 
-
     def isOpen(self):
         return not self.closed
 
