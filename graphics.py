@@ -26,7 +26,7 @@ def update(rate=None):
     root.update()
 '''
 
-# top level window for displaying graphics
+# GraphWin ------------------------------------------------------------------------------------------------------------
 class GraphWin(tk.Canvas):
 
     # constructor
@@ -229,7 +229,7 @@ class GraphWin(tk.Canvas):
             item.draw(self)
         self.update()
         
-# internal class for performing transformations               
+# Transform -----------------------------------------------------------------------------------------------------------     
 class Transform:
    
     def __init__(self, w, h, xlow, ylow, xhigh, yhigh):
@@ -257,7 +257,7 @@ class Transform:
 
 
 # Default values for various item configuration options. Only a subset of
-#   keys may be present in the configuration dictionary for a given item
+# keys may be present in the configuration dictionary for a given item
 DEFAULT_CONFIG = {"fill":"",
       "outline":"black",
       "width":"1",
@@ -266,19 +266,20 @@ DEFAULT_CONFIG = {"fill":"",
       "justify":"center",
                   "font": ("helvetica", 12, "normal")}
 
-# superclass for all geometric shapes
+# GraphicsObject ------------------------------------------------------------------------------------------------------
 class GraphicsObject:
 
-    # A subclass of GraphicsObject should override draw and
+    # all subclasses of GraphicsObject should override draw and
     # and move methods.
     
+    # constructor
     def __init__(self, options):
         # options is a list of strings indicating which options are
         # legal for this object.
         
         # When an object is drawn, canvas is set to the GraphWin(canvas)
-        #    object where it is drawn and id is the TK identifier of the
-        #    drawn shape.
+        # object where it is drawn and id is the TK identifier of the
+        # drawn shape.
         self.canvas = None
         self.id = None
 
@@ -325,7 +326,7 @@ class GraphicsObject:
         self.canvas = None
         self.id = None
 
-    # move object dx units in x direction and dy units in y-direction
+    # move object by dx, dy
     def move(self, dx, dy):       
         self._move(dx,dy)
         canvas = self.canvas
@@ -341,8 +342,9 @@ class GraphicsObject:
             if canvas.autoflush:
                 root.update()
 
-    # Internal method for changing configuration of the objec. Will
-    # raise an error if the option does not exist in the config dictionary for this object     
+    # Internal method for changing configuration of the object. Will
+    # raise an error if the option does not exist in the config dictionary for this object
+    # ?     
     def _reconfig(self, option, setting):
      
         #if option not in self.config:
@@ -362,7 +364,7 @@ class GraphicsObject:
     def _move(self, dx, dy):
         pass # must override in subclass
 
-# zero-dimensional point 
+# Point ---------------------------------------------------------------------------------------------------------------
 class Point(GraphicsObject):
     def __init__(self, x, y):
         GraphicsObject.__init__(self, ["outline", "fill"])
@@ -379,7 +381,7 @@ class Point(GraphicsObject):
         x,y = canvas.toScreen(self.x,self.y)
         return canvas.create_rectangle(x, y , x+1, y+1, options)
 
-    # overwriten method
+    # move the Point by dx, dy
     def _move(self, dx, dy):
         self.x = self.x + dx
         self.y = self.y + dy
@@ -396,7 +398,7 @@ class Point(GraphicsObject):
     # returns y-coord of the given point
     def getY(self): return self.y
 
-# internal base class for objects represented by bounding box (opposite corners). line segment is a degenerate case.
+# Bounding box class (box defined by opposite corners)
 class _BBox(GraphicsObject):
   
     # constructor
@@ -405,7 +407,7 @@ class _BBox(GraphicsObject):
         self.p1 = p1.clone()
         self.p2 = p2.clone()
 
-    # overwriten method - moves the bounding box by dx, dy
+    # moves the BBox by dx, dy
     def _move(self, dx, dy):
         self.p1.x = self.p1.x + dx
         self.p1.y = self.p1.y + dy
@@ -424,7 +426,7 @@ class _BBox(GraphicsObject):
         p2 = self.p2
         return Point((p1.x+p2.x)/2.0, (p1.y+p2.y)/2.0)
 
-# rectangle    
+# Rectangle ----------------------------------------------------------------------------------------------------------- 
 class Rectangle(_BBox):
     
     # constructor
@@ -435,7 +437,7 @@ class Rectangle(_BBox):
     def __repr__(self):
         return "Rectangle({}, {})".format(str(self.p1), str(self.p2))
     
-    # overwritten method - 
+    # draw the given Rectangle object 
     def _draw(self, canvas, options):
         p1 = self.p1
         p2 = self.p2
@@ -449,10 +451,10 @@ class Rectangle(_BBox):
         other.config = self.config.copy()
         return other
 
-# oval
+# Oval ----------------------------------------------------------------------------------------------------------------
 class Oval(_BBox):
     
-    # constructor
+    # constructor, using BBox class
     def __init__(self, p1, p2):
         _BBox.__init__(self, p1, p2)
 
@@ -466,7 +468,7 @@ class Oval(_BBox):
         other.config = self.config.copy()
         return other
     
-    # overwritten method -
+    # draw the given Oval object
     def _draw(self, canvas, options):
         p1 = self.p1
         p2 = self.p2
@@ -474,7 +476,7 @@ class Oval(_BBox):
         x2,y2 = canvas.toScreen(p2.x,p2.y)
         return canvas.create_oval(x1,y1,x2,y2,options)
 
-# circle
+# Circle --------------------------------------------------------------------------------------------------------------
 class Circle(Oval):
     
     # constructor
@@ -499,7 +501,7 @@ class Circle(Oval):
         return self.radius
 
 
-# line         
+# Line ----------------------------------------------------------------------------------------------------------------   
 class Line(_BBox):
     
     # constructor
@@ -518,7 +520,7 @@ class Line(_BBox):
         other.config = self.config.copy()
         return other
   
-    # overwritten method -
+    # draw the given Line object
     def _draw(self, canvas, options):
         p1 = self.p1
         p2 = self.p2
@@ -528,11 +530,11 @@ class Line(_BBox):
 
     # ?   
     def setArrow(self, option):
-        if not option in ["first","last","both","none"]:
-            '''raise GraphicsError(BAD_OPTION)'''
+        #if not option in ["first","last","both","none"]:
+           #raise GraphicsError(BAD_OPTION)
         self._reconfig("arrow", option)
         
-# polygon
+# Polygon -------------------------------------------------------------------------------------------------------------
 class Polygon(GraphicsObject):
     
     def __init__(self, *points):
@@ -544,7 +546,7 @@ class Polygon(GraphicsObject):
 
     # unambiguous representation of the object state
     def __repr__(self):
-        return "Polygon"+str(tuple(p for p in self.points))
+        return "Polygon" + str(tuple(p for p in self.points))
     
     # clones them current Line object
     def clone(self):
@@ -556,12 +558,12 @@ class Polygon(GraphicsObject):
     def getPoints(self):
         return list(map(Point.clone, self.points))
 
-    # overwritten method -
+    # move the given Polygon by dx, dy
     def _move(self, dx, dy):
         for p in self.points:
             p.move(dx,dy)
    
-    # overwritten method -
+    # draw the Polygon object
     def _draw(self, canvas, options):
         args = [canvas]
         for p in self.points:
@@ -571,12 +573,12 @@ class Polygon(GraphicsObject):
         args.append(options)
         return GraphWin.create_polygon(*args) 
 
-# text box
+# Text ----------------------------------------------------------------------------------------------------------------
 class Text(GraphicsObject):
     
     # constructor
     def __init__(self, p, text):
-        GraphicsObject.__init__(self, ["justify","fill","text","font"])
+        GraphicsObject.__init__(self, ["justify", "fill", "text", "font"])
         self.setText(text)
         self.anchor = p.clone()
         self.setFill(DEFAULT_CONFIG['outline'])
@@ -641,7 +643,7 @@ class Text(GraphicsObject):
     def setTextColor(self, color):
         self.setFill(color)
 
-# entry field
+# Entry ---------------------------------------------------------------------------------------------------------------
 class Entry(GraphicsObject):
 
     # constructor
@@ -743,7 +745,7 @@ class Entry(GraphicsObject):
         if self.entry:
             self.entry.config(fg=color)
 
-# Button
+# Button --------------------------------------------------------------------------------------------------------------
 class BButton(GraphicsObject):
 
     # constructor
@@ -765,7 +767,7 @@ class BButton(GraphicsObject):
     def _move(self, dx, dy):
         self.anchor.move(dx,dy)
 
-# 2-d image
+# Image ---------------------------------------------------------------------------------------------------------------
 class Image(GraphicsObject):
 
     idCount = 0
@@ -794,7 +796,7 @@ class Image(GraphicsObject):
         self.imageCache[self.imageId] = self.img # save a reference  
         return canvas.create_image(x,y,image=self.img)
     
-    # move Image object by dx, dy
+    # move Image by dx, dy
     def _move(self, dx, dy):
         self.anchor.move(dx,dy)
     
@@ -912,5 +914,5 @@ class Image(GraphicsObject):
 # MacOS fix 1
 #update()
 
-if __name__ == "__main__":
-    test()
+#if __name__ == "__main__":
+    #test()
