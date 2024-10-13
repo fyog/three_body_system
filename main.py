@@ -19,14 +19,14 @@ def main():
     interface = Interface(win)
     screen = Screen('black',  interface)
     #origin_world = win.toWorld(800., 400.)
-    origin_screen = win.toScreen(.0, .0)
+    origin_screen = win.toScreen(.0, .0) # find the world origin in screen coordinates
     #x, y = origin_world
     x, y = origin_screen
     print("x: " + str(x) + ",y: " + str(y))
 
     # menu screen
     while not interface.begin_game:
-        screen.draw_menu_screen(x, y)
+        screen.draw_menu_screen(0, 0)
         interface.check()
     screen.undraw_menu_screen()
 
@@ -36,7 +36,9 @@ def main():
         controls.setTextColor('white')
     
     # generate system
-    spaceship = Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
+    coords = win.toScreen(-20., -20.)
+    x, y = coords
+    spaceship = Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
     mass = Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
     system = System(win, interface, [spaceship, mass])
 

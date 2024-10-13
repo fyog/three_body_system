@@ -590,8 +590,8 @@ class Text(GraphicsObject):
     # draws the current text box, with the given options - ?
     def _draw(self, canvas, options):
         p = self.anchor
-        x,y = canvas.toScreen(p.x,p.y)
-        return canvas.create_text(x,y,options)
+        x,y = canvas.toScreen(p.x, p.y)
+        return canvas.create_text(x, y, options)
     
     # moves the given TextBox object  by dx, dy
     def _move(self, dx, dy):
