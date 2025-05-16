@@ -68,11 +68,14 @@ class GraphWin(tk.Canvas):
     # readable representation of the object currently
     def __str__(self):
         return repr(self)
-     
-    '''def __checkOpen(self):
-        if self.closed:
-            raise GraphicsError("window is closed")'''
     
+    # checks if window is currently open, if not raises an Error
+    def __checkOpen(self):
+        print('fix this')
+        #if self.closed:
+            #raise GraphicsError("window is closed")
+    
+    # ?
     def _onKey(self, evnt):
         self.lastKey = evnt.keysym
 
@@ -182,25 +185,25 @@ class GraphWin(tk.Canvas):
     
     # converts 2-d world coords to screen coords
     def toScreen(self, x, y):
-        return x + (WIDTH / 2.), -(y - (HEIGHT / 2.))
+        #return x + (WIDTH / 2.), -(y - (HEIGHT / 2.))
         
         # original method below
-        '''trans = self.trans
+        trans = self.trans
         if trans:
             return self.trans.screen(x,y)
         else:
-            return x,y'''
+            return x,y
 
     # converts 2-d screen coords to world coords
     def toWorld(self, x, y):
-        return x - (WIDTH / 2.), -(y - (HEIGHT / 2.))
+        #return x - (WIDTH / 2.), -(y - (HEIGHT / 2.))
 
         # original method below
-        '''trans = self.trans
+        trans = self.trans
         if trans:
             return self.trans.world(x,y)
         else:
-            return x,u'''
+            return x,y
     
     # sets a specific function as the func that will be executed by the mouse handler event
     def setMouseHandler(self, func):

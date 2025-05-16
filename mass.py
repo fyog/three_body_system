@@ -1,16 +1,12 @@
 import numpy as np
 import math
-from graphics import *
+import graphics as gr
 
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
 
 class Mass:
    
-    path_list_large = []
-    path_list_med = []
-    path_list_small = []
-
     # constructor
     def __init__(self, kg, pos, vel, colour, timestep):
         self.kg = kg
@@ -75,7 +71,7 @@ class Mass:
                         
     # draws mass to the screen
     def draw(self, win):
-        self.circle = Circle(Point(self.pos[0], self.pos[1]), self.radius)
+        self.circle = gr.Circle(gr.Point(self.pos[0], self.pos[1]), self.radius)
         self.circle.setOutline(self.colour)
         self.circle.setFill(self.colour)
         self.circle.draw(win)
@@ -83,48 +79,6 @@ class Mass:
     # remove the mass from the screen
     def undraw(self):
         self.circle.undraw()
-
-    # draws mass path trajectory
-    def draw_path(self, win):
-     
-        # small pts
-        path_pt_small = Point(self.pos[0], self.pos[1])
-        path_pt_small.setOutline('blue')
-        path_pt_small.setFill('blue')
-        self.path_list_small.append(path_pt_small)
-        path_pt_small.draw(win)
-
-        # medium pts
-        path_pt_med = Circle(Point(self.pos[0], self.pos[1]), 1.3)
-        path_pt_med.setOutline('blue')
-        path_pt_med.setFill('blue')
-        self.path_list_med.append(path_pt_med)
-        path_pt_med.draw(win)
-
-        # large pts
-        path_pt_large = Circle(Point(self.pos[0], self.pos[1]), 2)
-        path_pt_large.setOutline('blue')
-        path_pt_large.setFill('blue')
-        self.path_list_large.append(path_pt_large)
-        path_pt_large.draw(win)
-
-    # removes mass path trajectory from the screen
-    def undraw_path(self):
-        
-        # small pts
-        if len(self.path_list_small) > 75:
-            self.path_list_small[0].undraw()
-            self.path_list_small.pop(0)
-
-        # med pts
-        if len(self.path_list_med) > 50:
-            self.path_list_med[0].undraw()
-            self.path_list_med.pop(0)
-        
-        # large pts
-        if len(self.path_list_large) > 25:
-            self.path_list_large[0].undraw()
-            self.path_list_large.pop(0)
 
     # updates the position and velocity of the given mass based on the current net force acting on it
     def update(self, masses):

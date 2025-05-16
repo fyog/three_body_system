@@ -1,6 +1,4 @@
-import keyboard
-from graphics import *
-import tkinter as tk
+import keyboard as key
  
 class Interface():
 
@@ -19,26 +17,26 @@ class Interface():
     def check(self):
         
         # keyboard vars
-        if keyboard.is_pressed('p'): self.pause = True 
-        if keyboard.is_pressed('u'): self.pause = False
-        if keyboard.is_pressed('r'): self.restart = True
-        if keyboard.is_pressed('esc'): self.running, self.pause, self.restart, self.collision_detected = False, False, False, False
-        if keyboard.is_pressed('left'): self.thrust_dir = 'left'
-        if keyboard.is_pressed('right'): self.thrust_dir = 'right'
-        if keyboard.is_pressed('up'): self.thrust_dir = 'up'
-        if keyboard.is_pressed('down'): self.thrust_dir = 'down'
-        if keyboard.is_pressed('b'): self.begin_game = True
-        if keyboard.is_pressed('space'): self.slow_mo = True
+        if key.is_pressed('p'): self.pause = True 
+        if key.is_pressed('u'): self.pause = False
+        if key.is_pressed('r'): self.restart = True
+        if key.is_pressed('esc'): self.running, self.pause, self.restart, self.collision_detected = False, False, False, False
+        if key.is_pressed('left'): self.thrust_dir = 'left'
+        if key.is_pressed('right'): self.thrust_dir = 'right'
+        if key.is_pressed('up'): self.thrust_dir = 'up'
+        if key.is_pressed('down'): self.thrust_dir = 'down'
+        if key.is_pressed('b'): self.begin_game = True
+        if key.is_pressed('space'): self.slow_mo = True
 
         # mouse vars
         if self.on_scroll == 'in': self.zoom_in = True
         if self.on_scroll == 'out': self.zoom_out = True
 
     # defines how mouse scrollwheel actions are interpreted by this interface
-    def on_scroll(self,event):
+    def on_scroll(self, event):
         if event.delta > 0:
-            print(text="Scrolled Up")
+            print(text = 'scrolled up')
             return 'in'
         else:
-            print(text="Scrolled Down")
+            print(text = 'scrolled down')
             return 'out'

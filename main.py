@@ -1,9 +1,10 @@
 import numpy as np
-from interface import *
-from system import *
-from mass import *
-from spaceship import *
-from screen import *
+import interface as intr
+import system as sys
+import mass as m
+import spaceship as s
+import graphics as gr
+import screen as scr
 
 COLLISIONS = False
 SHOW_PATH = True
@@ -15,32 +16,33 @@ TIME_STEP = 0.1
 def main():
     
     # window and interface creation
-    win = GraphWin('Three-Body System', WIDTH, HEIGHT)
-    interface = Interface(win)
-    screen = Screen('black',  interface)
-    #origin_world = win.toWorld(800., 400.)
-    origin_screen = win.toScreen(.0, .0) # find the world origin in screen coordinates
+    win = gr.GraphWin('Three-Body System', 1600, 800)
+    interface = intr.Interface(win)
+    screen = scr.Screen('black',  interface)
+    
+    origin_screen = win.toScreen(800, 400) # find the world origin in screen coordinates
     #x, y = origin_world
     x, y = origin_screen
-    print("x: " + str(x) + ",y: " + str(y))
+    #print("x: " + str(x) + ",y: " + str(y))
 
     # menu screen
     while not interface.begin_game:
-        screen.draw_menu_screen(0, 0)
+        screen.draw_menu_screen(x, y)
         interface.check()
-    screen.undraw_menu_screen()
+    
+    if interface.begin_game: screen.undraw()
 
     # game instructions
     if SHOW_CONTROLS:
-        controls = Text(Point(0, 0), 'To restart the sim press r.\nTo pause press p.\nTo unpause press u.\nTo close the window press esc.')
+        controls = gr.Text(gr.Point(0, 0), 'To restart the sim press r.\nTo pause press p.\nTo unpause press u.\nTo close the window press esc.')
         controls.setTextColor('white')
     
     # generate system
     coords = win.toScreen(-20., -20.)
     x, y = coords
-    spaceship = Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
-    mass = Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
-    system = System(win, interface, [spaceship, mass])
+    spaceship = s.Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
+    mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
+    system = sys.System(win, interface, [spaceship, mass])
 
     # simulation loop
     while interface.running:
@@ -55,10 +57,10 @@ def main():
            
         # render ui
         if SHOW_UI:
-            position = Text(Point(120, 34), 'pos x: ' + str(spaceship.pos[0]) + '\npos y: ' + str(spaceship.pos[1]))
+            position = gr.Text(gr.Point(120, 34), 'pos x: ' + str(spaceship.pos[0]) + '\npos y: ' + str(spaceship.pos[1]))
             position.setTextColor('white')
             position.draw(win)
-            speed = Text(Point(121, 78), 'speed x: ' + str(spaceship.vel[0]) + '\nspeed y: ' + str(spaceship.vel[1]))
+            speed = gr.Text(gr.Point(121, 78), 'speed x: ' + str(spaceship.vel[0]) + '\nspeed y: ' + str(spaceship.vel[1]))
             speed.setTextColor('white')
             speed.draw(win)
             position.undraw()
@@ -86,9 +88,9 @@ def main():
 
         # restart simulation
         if interface.restart:
-            spaceship = Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
-            mass = Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
-            system = System(win, interface, [spaceship, mass])
+            spaceship = s.Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
+            mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
+            system = sys.System(win, interface, [spaceship, mass])
             interface.restart = False
               
         # update masses

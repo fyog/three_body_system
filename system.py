@@ -1,7 +1,4 @@
-from mass import *
-from interface import *
-
-# This class is meant to represent the physical universe (w.r.t the program), with the ability to add an unlimited number of bodies to the simulation.
+# represents the universe
 class System:
 
     # constructor
@@ -12,7 +9,7 @@ class System:
     def render(self):
         for _ in self.masses:
             _.draw(self.win)
-            _.draw_path(self.win)
+            #_.draw_path(self.win)
 
     # add another mass to the system
     def add_mass(self, mass):
@@ -33,6 +30,9 @@ class System:
     def clear(self):
         for _ in self.masses:
             _.undraw()
-            _.undraw_path()
+            #_.undraw_path()
 
-    # def reset(self):
+    # reset the system to its initial state
+    def reset(self):
+        for _ in self.masses:
+            print('implement')

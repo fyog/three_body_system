@@ -1,10 +1,10 @@
-from mass import *
+import mass
 
-class Spaceship(Mass):
+class Spaceship(mass.Mass):
 
     # constructor (add interface to the constructor)
     def _init_(self, kg, pos, vel, colour, timestep):
-        Mass.__init__(self, kg, pos, vel, colour, timestep)
+        mass.Mass.__init__(self, kg, pos, vel, colour, timestep)
 
     # applies thrust to the spaceship based on keyboard presses
     def apply_thrust(self, interface):
