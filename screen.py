@@ -14,6 +14,7 @@ class Screen:
         self.start_screen.setTextColor ('white')
         self.start_screen.draw(self.interface.win)
 
+
     # removes the current screen
-    def undraw(self):
-        self.start_screen.undraw()
+    #def undraw(self):
+        #self.start_screen.undraw()

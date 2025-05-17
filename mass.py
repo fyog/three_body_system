@@ -1,7 +1,9 @@
 import numpy as np
 import math
 import graphics as gr
+import time as t
 
+time_elapsed = t.time()
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
 
@@ -82,16 +84,21 @@ class Mass:
 
     # updates the position and velocity of the given mass based on the current net force acting on it
     def update(self, masses):
-        
-        # calculate force on the given mass as a result of all other masses
-        force = np.array([0., 0., 0.])
-        for _ in masses:
-            if _ != self:
-                force += self.force(_)
-        accel = force / self.kg
+        delta = t.time() - time_elapsed
+        if delta > self.timestep:
+            
+            
+            # calculate force on the given mass as a result of all other masses
+            force = np.array([0., 0., 0.])
+            for _ in masses:
+                if _ != self:
+                    force += self.force(_)
+            accel = force / self.kg
 
-        # Newton's method
-        self.vel = self.vel + accel * self.timestep
-        self.pos = self.pos + self.vel * self.timestep
-    
+            # Newton's method
+            self.vel = self.vel + accel * self.timestep
+            self.pos = self.pos + self.vel * self.timestep
+        
+        
+
 

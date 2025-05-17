@@ -21,7 +21,6 @@ def main():
     screen = scr.Screen('black',  interface)
     
     origin_screen = win.toScreen(800, 400) # find the world origin in screen coordinates
-    #x, y = origin_world
     x, y = origin_screen
     #print("x: " + str(x) + ",y: " + str(y))
 
@@ -29,12 +28,13 @@ def main():
     while not interface.begin_game:
         screen.draw_menu_screen(x, y)
         interface.check()
-    
-    if interface.begin_game: screen.undraw()
+       
+    print("triggered")
+    #6screen.undraw() # is not undrawing the menu screen
 
     # game instructions
     if SHOW_CONTROLS:
-        controls = gr.Text(gr.Point(0, 0), 'To restart the sim press r.\nTo pause press p.\nTo unpause press u.\nTo close the window press esc.')
+        controls = gr.Text(gr.Point(800, 300), 'To restart the sim press r.\nTo pause press p.\nTo unpause press u.\nTo close the window press esc.')
         controls.setTextColor('white')
     
     # generate system
