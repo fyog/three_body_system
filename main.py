@@ -12,7 +12,8 @@ SHOW_PATH = True
 SHOW_MASSES = True
 SHOW_UI = False
 SHOW_CONTROLS = True
-TIME_STEP = 0.1
+dt = 0.01
+tt = t.time()
 
 def main():
     
@@ -31,7 +32,7 @@ def main():
         interface.check()
        
     print("triggered")
-    #6screen.undraw() # is not undrawing the menu screen
+    #screen.undraw() # is not undrawing the menu screen
 
     # game instructions
     if SHOW_CONTROLS:
@@ -41,16 +42,13 @@ def main():
     # generate system
     coords = win.toScreen(-20., -20.)
     x, y = coords
-    spaceship = s.Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
-    mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
+    spaceship = s.Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', dt)
+    mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', dt)
     system = sys.System(win, interface, [spaceship, mass])
 
     # simulation loop
     while interface.running:
-        
-        # update clock
-        time = t.time()
-        
+                
         # detect collisions
         if COLLISIONS:
             interface.collision_detected = spaceship.detect_collision(system)
@@ -81,10 +79,10 @@ def main():
 
         # slow motion
         if interface.slow_mo:
-            spaceship.set_timestep(TIME_STEP / 10.)
+            spaceship.set_timestep(dt / 10.)
             interface.slow_mo = False
         else:
-            spaceship.set_timestep(TIME_STEP)
+            spaceship.set_timestep(dt)
 
         # pause loop
         while interface.pause:
@@ -92,14 +90,15 @@ def main():
 
         # restart simulation
         if interface.restart:
-            spaceship = s.Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', TIME_STEP)
-            mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', TIME_STEP)
+            spaceship = s.Spaceship(1., np.array([-20, 100, 0]), np.array([15, 5, 0]), 'darkblue', dt)
+            mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', dt)
             system = sys.System(win, interface, [spaceship, mass])
             interface.restart = False
               
         # update masses
         if not interface.collision_detected:
-            system.update(time)
+            system.update(tt)
+            tt += dt
         else:
             print('You crashed.')
             interface.pause = True

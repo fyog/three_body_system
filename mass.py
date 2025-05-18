@@ -5,7 +5,7 @@ import time as t
 
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
-
+accumulator = .0
 class Mass:
    
     # constructor
@@ -82,14 +82,15 @@ class Mass:
         self.circle.undraw()
 
     # updates the position and velocity of the given mass based on the current net force acting on it
-    def update(self, masses, current_time):
+    def update(self, masses, time):
         
-        delta = t.time() - current_time
-        print(delta)
+        delta = t.time() - time
         
-        if delta > self.timestep:
-            
-            
+        accumulator += delta
+        print(accumulator)
+                
+        while accumulator > self.timestep:
+                        
             # calculate force on the given mass as a result of all other masses
             force = np.array([0., 0., 0.])
             for _ in masses:
@@ -100,7 +101,8 @@ class Mass:
             # Newton's method
             self.vel = self.vel + accel * self.timestep
             self.pos = self.pos + self.vel * self.timestep
-        
+            
+            accumulator -= delta        
         
 
 
