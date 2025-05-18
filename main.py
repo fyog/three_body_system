@@ -5,6 +5,7 @@ import mass as m
 import spaceship as s
 import graphics as gr
 import screen as scr
+import time as t
 
 COLLISIONS = False
 SHOW_PATH = True
@@ -46,7 +47,10 @@ def main():
 
     # simulation loop
     while interface.running:
-              
+        
+        # update clock
+        time = t.time()
+        
         # detect collisions
         if COLLISIONS:
             interface.collision_detected = spaceship.detect_collision(system)
@@ -95,7 +99,7 @@ def main():
               
         # update masses
         if not interface.collision_detected:
-            system.update()
+            system.update(time)
         else:
             print('You crashed.')
             interface.pause = True

@@ -22,9 +22,9 @@ class System:
                 self.masses.remove(mass)
 
     # updates all the masses in the system
-    def update(self):
+    def update(self, time):
         for _ in self.masses:
-            _.update(self.masses)
+            _.update(self.masses, time)
 
     # clear the system from the screen
     def clear(self):

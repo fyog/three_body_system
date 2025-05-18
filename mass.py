@@ -3,7 +3,6 @@ import math
 import graphics as gr
 import time as t
 
-time_elapsed = t.time()
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
 
@@ -83,8 +82,11 @@ class Mass:
         self.circle.undraw()
 
     # updates the position and velocity of the given mass based on the current net force acting on it
-    def update(self, masses):
-        delta = t.time() - time_elapsed
+    def update(self, masses, current_time):
+        
+        delta = t.time() - current_time
+        print(delta)
+        
         if delta > self.timestep:
             
             
