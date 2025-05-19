@@ -12,8 +12,7 @@ SHOW_PATH = True
 SHOW_MASSES = True
 SHOW_UI = False
 SHOW_CONTROLS = True
-dt = 0.01
-tt = t.time()
+dt = 0.1
 
 def main():
     
@@ -45,6 +44,7 @@ def main():
     spaceship = s.Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', dt)
     mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', dt)
     system = sys.System(win, interface, [spaceship, mass])
+    time_current = t.time()
 
     # simulation loop
     while interface.running:
@@ -97,8 +97,8 @@ def main():
               
         # update masses
         if not interface.collision_detected:
-            system.update(tt)
-            tt += dt
+            system.update(time_current)
+            time_current = t.time()
         else:
             print('You crashed.')
             interface.pause = True
