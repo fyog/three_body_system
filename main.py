@@ -76,12 +76,7 @@ def main():
         elif interface.zoom_out:
             print('zooming out')
 
-        # slow motion
-        if interface.slow_mo:
-            spaceship.set_timestep(dt / 10.)
-            interface.slow_mo = False
-        else:
-            spaceship.set_timestep(dt)
+        spaceship.set_timestep(dt)
 
         # pause loop
         while interface.pause:
