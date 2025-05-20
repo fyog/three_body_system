@@ -38,10 +38,10 @@ def main():
         controls.setTextColor('white')
     
     # generate system
-    coords = win.toScreen(-20., -20.)
+    coords = win.toScreen(40., 40.)
     x, y = coords
-    spaceship = s.Spaceship(1., np.array([x , y,  0]), np.array([15, 5, 0]), 'darkblue', dt)
-    mass = m.Mass(350., np.array([800, 550, 0]), np.array([0, 0, 0]), 'yellow', dt)
+    spaceship = s.Spaceship(1., np.array([x , y,  0]), np.array([15., 15., .0]), 'darkblue', dt)
+    mass = m.Mass(350., np.array([800., 550., .0]), np.array([.0, .0, .0]), 'yellow', dt)
     system = sys.System(win, interface, [spaceship, mass])
     time_current = t.time()
 
@@ -98,6 +98,7 @@ def main():
         if not interface.collision_detected:
             system.update(time_current)
             time_current = t.time()
+            system.clear()
             
         else:
             print('You crashed.')

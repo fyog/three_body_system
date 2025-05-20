@@ -2,10 +2,11 @@ import numpy as np
 import math
 import graphics as gr
 import time as t
+import path as p
 
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
-DEBUG = True
+DEBUG = Falsese
 
 class Mass:
    
@@ -81,6 +82,9 @@ class Mass:
         self.circle.setFill(self.colour)
         self.circle.draw(win)
 
+    def draw_path(self, win):
+        p.draw_path(win)
+        
     # remove the mass from the screen
     def undraw(self):
         self.circle.undraw()
@@ -110,7 +114,6 @@ class Mass:
             
             self.accumulator -= self.timestep
             self.clock += self.timestep
-            if DEBUG: print("simulation clock: ", self.clock)
         
 
 
