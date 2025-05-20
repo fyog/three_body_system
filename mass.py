@@ -5,6 +5,7 @@ import time as t
 
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
+DEBUG = True
 
 class Mass:
    
@@ -17,6 +18,7 @@ class Mass:
         self.colour = colour
         self.timestep = timestep
         self.accumulator = 0.0
+        self.clock = 0.0
 
 
     # rightmost edge of a mass (w.r.t x-axis)
@@ -86,13 +88,15 @@ class Mass:
     # updates the position and velocity of the given mass based on the current net force acting on it
     def update(self, masses, time):
         
-        delta = t.time() - time # time final - time initial
-        print(delta)
-        self.accumulator += delta
-        #print(self.accumulator)
+        frame_time = t.time() - time # time final - time initial
+        if DEBUG: print("frame time: ", frame_time)
+        
+        self.accumulator += frame_time # accumulate frame time
                 
-        while self.accumulator > self.timestep:
-                        
+        while self.accumulator >= self.timestep:
+            
+            if DEBUG: print("accumulated time: ", self.accumulator)
+            
             # calculate force on the given mass as a result of all other masses
             force = np.array([0., 0., 0.])
             for _ in masses:
@@ -104,7 +108,9 @@ class Mass:
             self.vel = self.vel + accel * self.timestep
             self.pos = self.pos + self.vel * self.timestep
             
-            self.accumulator -= delta        
+            self.accumulator -= self.timestep
+            self.clock += self.timestep
+            if DEBUG: print("simulation clock: ", self.clock)
         
 
 

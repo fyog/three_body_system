@@ -12,7 +12,7 @@ SHOW_PATH = True
 SHOW_MASSES = True
 SHOW_UI = False
 SHOW_CONTROLS = True
-dt = 0.1
+dt = 0.01
 
 def main():
     
@@ -30,8 +30,7 @@ def main():
         screen.draw_menu_screen(x, y)
         interface.check()
        
-    print("triggered")
-    #screen.undraw() # is not undrawing the menu screen
+    screen.undraw() # is not undrawing the menu screen
 
     # game instructions
     if SHOW_CONTROLS:
@@ -99,6 +98,7 @@ def main():
         if not interface.collision_detected:
             system.update(time_current)
             time_current = t.time()
+            
         else:
             print('You crashed.')
             interface.pause = True
