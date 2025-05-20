@@ -6,7 +6,7 @@ import path as p
 
 G = pow(10, 3) # gravitational constant
 SCALE_FACTOR = 3.
-DEBUG = Falsese
+DEBUG = False
 
 class Mass:
    
