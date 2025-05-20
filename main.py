@@ -12,7 +12,7 @@ SHOW_PATH = True
 SHOW_MASSES = True
 SHOW_UI = False
 SHOW_CONTROLS = True
-dt = 0.01
+dt = 0.0001
 
 def main():
     

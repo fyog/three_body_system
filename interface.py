@@ -5,12 +5,12 @@ class Interface():
     # constructor
     def __init__(self, win):
         self.win = win
-        self.start, self.running, self.pause, self.restart, self.collision_detected, self.begin_game, self.slow_mo, self.zoom_in, self.zoom_out = False, True, False, False, False, False, False, False, False
+        self.start, self.running, self.pause, self.restart, self.collision_detected, self.begin_game, self.zoom_in, self.zoom_out = False, True, False, False, False, False, False, False
         self.thrust_dir = ''
     
     # reset the state of the keyboard/mouse interface
     def reset_state(self):
-        self.start, self.running, self.pause, self.restart, self.collision_detected, self.begin_game, self.slow_mo, self.zoom_in, self.zoom_out = False, True, False, False, False, False, False, False, False
+        self.start, self.running, self.pause, self.restart, self.collision_detected, self.begin_game, self.zoom_in, self.zoom_out = False, True, False, False, False, False, False, False
         self.thrust_dir = ''
 
     # check the current state of the keyboard/mouse interface
@@ -26,7 +26,6 @@ class Interface():
         if key.is_pressed('up'): self.thrust_dir = 'up'
         if key.is_pressed('down'): self.thrust_dir = 'down'
         if key.is_pressed('b'): self.begin_game = True
-        if key.is_pressed('space'): self.slow_mo = True
 
         # mouse vars
         if self.on_scroll == 'in': self.zoom_in = True
